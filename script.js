@@ -1,10 +1,11 @@
-
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const startBtn = document.querySelector('#start-btn');
   const pauseBtn = document.querySelector('#pause-btn');
-  let started = false;
+  // const breakBtn = document.querySelector('#break-btn');
+
   let isPaused = false;
-  let startingMinutes = .1;
+  
+  let startingMinutes = 25;
   let time = startingMinutes * 60;
 
   const countdownElement = document.getElementById('countdown');
@@ -13,8 +14,9 @@
     var audio = new Audio('https://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3'); 
     audio.play(); 
   }
+  
    function pause() {
-    if (isPaused == false && started == true) {
+    if (isPaused == false) {
       isPaused = true;
       pauseBtn.innerHTML = 'Unpause';
     } else {
@@ -23,9 +25,17 @@
     }
   }
 
+  function clear() {
+    startBtn.removeAttribute('#start-btn');
+    startBtn.id = 'clear-btn';
+    startBtn.innerHTML = 'Clear';
+  }
+
   function updateCountdown() {
     if (isPaused == false) {
-    started = true;
+
+    clear();
+
     const minutes = Math.floor(time / 60);
     let seconds = time % 60;
     
@@ -38,24 +48,32 @@
       setTimeout(countdownElement.innerHTML = '0:00', 1000)
     }
 
-    while (time == 0 && startingMinutes == .1) {
+    while (time == 0 && startingMinutes == 25) {
       document.querySelector('#title').innerHTML = "Break time!";
-      startingMinutes = .2;
+      document.querySelector('#title').style.animation = "pulse 0.3s linear 1";
+      startingMinutes = 5;
       time = startingMinutes * 60;
       play();
     }
 
-    while (time == 0 && startingMinutes == .2) {
+    while (time == 0 && startingMinutes == 5) {
       document.querySelector('#title').innerHTML = "Let's get stuff done!"
-      startingMinutes = .1;
+      document.querySelector('#title').style.animation = "pulse 0.3s linear 1";
+      startingMinutes = 25;
       time = startingMinutes * 60;
       play();
     }
     }
   }
-  
 
-    startBtn.addEventListener('click', () => {setInterval(updateCountdown, 1000);});
+    startBtn.addEventListener('click', () => {
+      if(startBtn.id == 'start-btn') {setInterval(updateCountdown, 1000);
+      } 
+      else {
+      setInterval(location.reload(), 1000); 
+      }
+    });
+
 
     pauseBtn.addEventListener('click', pause);
 
