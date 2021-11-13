@@ -38,7 +38,6 @@ header {
 }
 
 img {
-  width: 400px !important;
   margin-bottom: 20px;
   transition: .4s ease-in-out;
 }
